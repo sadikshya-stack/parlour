@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Glamour Touch</title>
+    
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Playfair+Display:wght@500&family=Work+Sans&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Work Sans', sans-serif;
+            min-height: 100vh;
+        }
+        .login-screen-bg {
+            background: url("img/page-header.jpg") no-repeat center center/cover;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .login-screen-bg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+        .font-dancing-script {
+            font-family: 'Dancing Script', cursive !important;
+        }
+        .font-playfair {
+            font-family: 'Playfair Display', serif !important;
+        }
+        .admin-header {
+            background: url(../img/hero-bg.jpg) top left no-repeat;
+            background-size: cover;
+            color: var(--bs-dark);
+            padding: 50px 30px;
+            border-radius: 0;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        .admin-header::before {
+            position: absolute;
+            content: "";
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(255, 255, 255, 0.85);
+            z-index: 1;
+        }
+        .admin-header > * {
+            position: relative;
+            z-index: 2;
+        }
+        .admin-header h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: var(--bs-primary);
+            text-shadow: none;
+        }
+        .stats-card {
+            background: var(--bs-white);
+            border-radius: 0;
+            padding: 30px 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            text-align: center;
+            border: 1px solid #f0f0f0;
+            transition: 0.5s;
+            position: relative;
+        }
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        .stats-card::before {
+            position: absolute;
+            content: "";
+            width: calc(100% + 10px);
+            height: calc(100% + 10px);
+            top: -5px;
+            left: -5px;
+            border: 2px solid var(--bs-primary);
+            border-radius: 0;
+            opacity: 0;
+            transition: 0.5s;
+            z-index: -1;
+        }
+        .stats-card:hover::before {
+            opacity: 1;
+        }
+        .stats-card i {
+            color: var(--bs-primary);
+        }
+        .table-container {
+            background: var(--bs-white);
+            border-radius: 0;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f0f0f0;
+        }
+        .btn-primary {
+            background: var(--bs-primary);
+            border: 1px solid var(--bs-primary);
+            color: var(--bs-white);
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 0.375rem;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: #0056b3;
+            border-color: #0056b3;
+            color: var(--bs-white);
+            transform: translateY(-2px);
+        }
+        .login-box {
+            background: var(--bs-white);
+            border-radius: 8px;
+            padding: 60px 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 3px solid var(--bs-primary);
+            max-width: 500px;
+            position: relative;
+            z-index: 2;
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .login-header h2 {
+            font-family: 'Work Sans', sans-serif;
+            font-size: 2rem;
+            color: var(--bs-primary);
+            font-weight: 700;
+            font-style: normal;
+            margin-bottom: 20px;
+            text-shadow: none;
+        }
+        .login-header p {
+            font-family: 'Work Sans', sans-serif;
+            font-size: 1.3rem;
+            color: var(--bs-primary);
+            font-weight: 600;
+            text-transform: none;
+            letter-spacing: 0.5px;
+            margin: 0;
+            font-style: normal;
+        }
+        .navbar {
+            background: var(--bs-white) !important;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        .navbar .navbar-nav .nav-link {
+            margin: 0 12px;
+            padding: 0;
+            outline: none;
+            font-family: "Playfair Display", serif;
+            font-size: 18px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--bs-dark);
+        }
+        .navbar .navbar-nav .nav-link:hover,
+        .navbar .navbar-nav .nav-link.active {
+            color: var(--bs-primary);
+        }
+        .table thead th {
+            font-family: "Playfair Display", serif;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--bs-primary);
+        }
+        .form-control, .form-select {
+            border: 2px solid #ced4da;
+            border-radius: 0.375rem;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            background: var(--bs-white);
+            color: var(--bs-dark);
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--bs-primary);
+            border-width: 2px;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            outline: 0;
+        }
+        .form-label {
+            font-weight: 500;
+            color: var(--bs-dark);
+            margin-bottom: 0.5rem;
+        }
+        .modal-content {
+            background: var(--bs-white);
+            border: 1px solid rgba(0,0,0,.125);
+            border-radius: 0.5rem;
+        }
+        .modal-header {
+            background: var(--bs-primary);
+            color: var(--bs-white);
+            border-bottom: 1px solid #dee2e6;
+        }
+        .badge {
+            font-family: "Playfair Display", serif;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+        h1, h2, h3 {
+            font-family: "Playfair Display", serif;
+            font-weight: 500;
+        }
+        .main-body {
+            background: var(--bs-light);
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen-bg">
+        <div class="login-box">
+            <div class="login-header">
+                <h2 class="mb-2">Admin Login</h2>
+                <p class="mb-0">Glamour Touch</p>
+            </div>
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-sign-in-alt me-2"></i>Login
+                </button>
+                <div class="mt-3 text-center">
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="main-body" style="display: none;">
+        <div class="container-fluid">
+            <!-- Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
+                <div class="container-fluid">
+                    <a class="navbar-brand bg-primary py-4 px-5 me-0 font-dancing-script" href="index.html">
+                        <h1 class="mb-0"><i class="bi bi-scissors"></i>Glamour Touch</h1>
+                    </a>
+                    <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse p-3" id="navbarCollapse">
+                        <div class="navbar-nav mx-auto">
+                            <a href="index.html" class="nav-item nav-link">Home</a>
+                            <a href="about.html" class="nav-item nav-link">About</a>
+                            <a href="service.html" class="nav-item nav-link">Service</a>
+                            <a href="appointment.html" class="nav-item nav-link">Appointment</a>
+                            <a href="#" class="nav-item nav-link active">Admin</a>
+                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        </div>
+                        <button class="btn btn-primary btn-sm ms-2" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Header -->
+            <div class="admin-header">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h1 class="font-dancing-script mb-2">
+                            <i class="fas fa-crown me-2"></i>Staff & Inventory Management
+                        </h1>
+                        <p class="mb-0">Manage your staff and beauty parlour items</p>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <button class="btn btn-success btn-sm" onclick="loadSampleData()">
+                            <i class="fas fa-plus me-1"></i>Load Sample Items
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Staff Management Section -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card shadow-lg border-0">
+                        <div class="card-header bg-success text-white">
+                            <h4 class="mb-0"><i class="bi bi-people me-2"></i>Staff Management</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Role</th>
+                                            <th>Status</th>
+                                            <th>Skills</th>
+                                            <th>Phone</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="staffTableBody">
+                                        <!-- Staff data will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <i class="fas fa-box fa-2x text-primary mb-2"></i>
+                        <h3 id="totalItems">0</h3>
+                        <p class="mb-0">Total Items</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <i class="fas fa-exclamation-triangle fa-2x text-warning mb-2"></i>
+                        <h3 id="lowStock">0</h3>
+                        <p class="mb-0">Low Stock</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <i class="fas fa-times-circle fa-2x text-danger mb-2"></i>
+                        <h3 id="outOfStock">0</h3>
+                        <p class="mb-0">Out of Stock</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <i class="fas fa-dollar-sign fa-2x text-success mb-2"></i>
+                        <h3 id="totalValue">$0</h3>
+                        <p class="mb-0">Total Value</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search and Add -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search items...">
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="hair-care">Hair Care</option>
+                        <option value="skincare">Skincare</option>
+                        <option value="makeup">Makeup</option>
+                        <option value="nail-care">Nail Care</option>
+                        <option value="tools">Tools</option>
+                        <option value="cleaning">Cleaning</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-primary w-100" onclick="showAddItemModal()">
+                        <i class="fas fa-plus me-2"></i>Add New Item
+                    </button>
+                </div>
+            </div>
+
+            <!-- Items Table -->
+            <div class="table-container">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>SKU</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="itemsTable">
+                            <!-- Items will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Item Modal -->
+    <div class="modal fade" id="addItemModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addItemForm">
+                        <div class="mb-3">
+                            <label class="form-label">SKU</label>
+                            <input type="text" class="form-control" id="itemSku" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" id="itemName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Category</label>
+                            <select class="form-select" id="itemCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="hair-care">Hair Care</option>
+                                <option value="skincare">Skincare</option>
+                                <option value="makeup">Makeup</option>
+                                <option value="nail-care">Nail Care</option>
+                                <option value="tools">Tools</option>
+                                <option value="cleaning">Cleaning</option>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="itemQuantity" min="0" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Price</label>
+                                <input type="number" class="form-control" id="itemPrice" min="0" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="itemDescription" rows="2"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="addItem()">Add Item</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script>
+        // Simple in-memory storage
+        let inventory = [];
+        
+        // Sample data
+        const sampleItems = [
+            { sku: 'HC001', name: 'Professional Shampoo', category: 'hair-care', quantity: 25, price: 15.99, description: 'Professional grade shampoo' },
+            { sku: 'HC002', name: 'Hair Conditioner', category: 'hair-care', quantity: 20, price: 12.99, description: 'Moisturizing conditioner' },
+            { sku: 'HC003', name: 'Hair Color - Black', category: 'hair-care', quantity: 12, price: 8.50, description: 'Permanent hair color kit' },
+            { sku: 'HC004', name: 'Hair Spray', category: 'hair-care', quantity: 18, price: 6.99, description: 'Extra hold hair spray' },
+            { sku: 'HC005', name: 'Hair Gel', category: 'hair-care', quantity: 22, price: 5.99, description: 'Strong hold hair gel' },
+            { sku: 'SK001', name: 'Face Cleanser', category: 'skincare', quantity: 8, price: 22.50, description: 'Gentle facial cleanser' },
+            { sku: 'SK002', name: 'Face Moisturizer', category: 'skincare', quantity: 14, price: 25.99, description: 'Daily moisturizer' },
+            { sku: 'SK003', name: 'Face Mask', category: 'skincare', quantity: 25, price: 4.99, description: 'Hydrating face masks' },
+            { sku: 'SK004', name: 'Sunscreen SPF 50', category: 'skincare', quantity: 18, price: 14.99, description: 'Broad spectrum sunscreen' },
+            { sku: 'MK001', name: 'Foundation', category: 'makeup', quantity: 15, price: 18.75, description: 'Liquid foundation' },
+            { sku: 'MK002', name: 'Lipstick - Red', category: 'makeup', quantity: 20, price: 12.50, description: 'Classic red lipstick' },
+            { sku: 'MK003', name: 'Mascara', category: 'makeup', quantity: 16, price: 10.99, description: 'Waterproof mascara' },
+            { sku: 'NC001', name: 'Nail Polish', category: 'nail-care', quantity: 0, price: 8.99, description: 'Red nail polish' },
+            { sku: 'NC002', name: 'Nail File', category: 'nail-care', quantity: 30, price: 2.99, description: 'Emery nail files' },
+            { sku: 'NC003', name: 'Cuticle Oil', category: 'nail-care', quantity: 10, price: 7.50, description: 'Nourishing cuticle oil' },
+            { sku: 'TL001', name: 'Hair Scissors', category: 'tools', quantity: 5, price: 45.00, description: 'Professional scissors' },
+            { sku: 'TL002', name: 'Hair Dryer', category: 'tools', quantity: 3, price: 89.99, description: 'Professional hair dryer' },
+            { sku: 'TL003', name: 'Curling Iron', category: 'tools', quantity: 4, price: 65.00, description: '1 inch curling iron' },
+            { sku: 'CL001', name: 'Disinfectant', category: 'cleaning', quantity: 8, price: 9.99, description: 'Tool disinfectant spray' },
+            { sku: 'CL002', name: 'Hand Sanitizer', category: 'cleaning', quantity: 15, price: 3.99, description: 'Hand sanitizer bottles' }
+        ];
+
+        // Login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === 'admin' && password === 'admin123') {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                loadInventory();
+                loadStaff();
+            } else {
+                alert('Invalid credentials!');
+            }
+        });
+
+        // Logout
+        function logout() {
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        // Load sample data
+        function loadSampleData() {
+            if (confirm('Load 20 sample beauty parlour items?')) {
+                inventory = [...sampleItems];
+                loadInventory();
+                alert('Sample items loaded successfully!');
+            }
+        }
+
+        // Staff Management Functions
+        function loadStaff() {
+            const staffData = JSON.parse(localStorage.getItem('staffMembers') || '[]');
+            const tbody = document.getElementById('staffTableBody');
+            tbody.innerHTML = '';
+            
+            staffData.forEach(staff => {
+                const row = document.createElement('tr');
+                const statusBadge = staff.status === 'available' ? 
+                    '<span class="badge bg-success">Available</span>' :
+                    staff.status === 'busy' ? 
+                    '<span class="badge bg-warning">Busy</span>' :
+                    '<span class="badge bg-danger">Off</span>';
+                
+                const busyUntil = staff.busyUntil ? 
+                    `<small class="text-muted">Until ${new Date(staff.busyUntil).toLocaleString()}</small>` : '';
+                
+                row.innerHTML = `
+                    <td>${staff.id}</td>
+                    <td>${staff.name}</td>
+                    <td>${staff.role}</td>
+                    <td>${statusBadge} ${busyUntil}</td>
+                    <td>${staff.skills.join(', ')}</td>
+                    <td>${staff.phone}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="viewStaffDetails(${staff.id})">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        ${staff.status === 'busy' ? 
+                            `<button class="btn btn-sm btn-success ms-1" onclick="resetStaffStatus(${staff.id})">
+                                <i class="bi bi-check-circle"></i> Set Available
+                            </button>` : 
+                            `<button class="btn btn-sm btn-warning ms-1" onclick="setStaffBusy(${staff.id})">
+                                <i class="bi bi-clock"></i> Set Busy
+                            </button>`
+                        }
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function viewStaffDetails(staffId) {
+            const staff = JSON.parse(localStorage.getItem('staffMembers') || '[]')
+                .find(s => s.id === staffId);
+            
+            if (staff) {
+                const statusText = staff.status === 'available' ? 'Available' :
+                                 staff.status === 'busy' ? 'Busy' : 'Off';
+                const busyUntil = staff.busyUntil ? 
+                    `\nBusy Until: ${new Date(staff.busyUntil).toLocaleString()}` : '';
+                
+                alert(`Staff Details:\n\n` +
+                      `ID: ${staff.id}\n` +
+                      `Name: ${staff.name}\n` +
+                      `Role: ${staff.role}\n` +
+                      `Status: ${statusText}${busyUntil}\n` +
+                      `Skills: ${staff.skills.join(', ')}\n` +
+                      `Phone: ${staff.phone}`);
+            }
+        }
+
+        function resetStaffStatus(staffId) {
+            if (confirm('Set this staff member as available?')) {
+                let staff = JSON.parse(localStorage.getItem('staffMembers') || '[]');
+                const staffIndex = staff.findIndex(s => s.id === staffId);
+                if (staffIndex !== -1) {
+                    staff[staffIndex].status = 'available';
+                    delete staff[staffIndex].busyUntil;
+                    localStorage.setItem('staffMembers', JSON.stringify(staff));
+                    loadStaff();
+                }
+            }
+        }
+
+        function setStaffBusy(staffId) {
+            if (confirm('Set this staff member as busy?')) {
+                let staff = JSON.parse(localStorage.getItem('staffMembers') || '[]');
+                const staffIndex = staff.findIndex(s => s.id === staffId);
+                if (staffIndex !== -1) {
+                    staff[staffIndex].status = 'busy';
+                    // Set busy for 2 hours by default
+                    const busyUntil = new Date(Date.now() + (2 * 60 * 60 * 1000));
+                    staff[staffIndex].busyUntil = busyUntil.toISOString();
+                    localStorage.setItem('staffMembers', JSON.stringify(staff));
+                    loadStaff();
+                }
+            }
+        }
+
+        // Load inventory
+        function loadInventory() {
+            const tbody = document.getElementById('itemsTable');
+            let filteredInventory = [...inventory];
+            
+            // Apply filters
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            
+            if (searchTerm) {
+                filteredInventory = filteredInventory.filter(item => 
+                    item.name.toLowerCase().includes(searchTerm) ||
+                    item.sku.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            if (categoryFilter) {
+                filteredInventory = filteredInventory.filter(item => item.category === categoryFilter);
+            }
+            
+            // Render table
+            tbody.innerHTML = filteredInventory.map(item => {
+                const stockStatus = item.quantity === 0 ? 'out' : 
+                                 item.quantity <= 10 ? 'low' : 'good';
+                const statusBadge = stockStatus === 'good' ? 'success' : 
+                                  stockStatus === 'low' ? 'warning' : 'danger';
+                const statusText = stockStatus === 'good' ? 'In Stock' : 
+                                 stockStatus === 'low' ? 'Low Stock' : 'Out of Stock';
+                
+                return `
+                    <tr>
+                        <td><strong>${item.sku}</strong></td>
+                        <td>${item.name}</td>
+                        <td>${item.category}</td>
+                        <td>${item.quantity}</td>
+                        <td>$${item.price}</td>
+                        <td><span class="badge bg-${statusBadge}">${statusText}</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" onclick="editItem('${item.sku}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteItem('${item.sku}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+            
+            updateStatistics();
+        }
+
+        // Update statistics
+        function updateStatistics() {
+            const totalItems = inventory.length;
+            const lowStock = inventory.filter(item => item.quantity > 0 && item.quantity <= 10).length;
+            const outOfStock = inventory.filter(item => item.quantity === 0).length;
+            const totalValue = inventory.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+            
+            document.getElementById('totalItems').textContent = totalItems;
+            document.getElementById('lowStock').textContent = lowStock;
+            document.getElementById('outOfStock').textContent = outOfStock;
+            document.getElementById('totalValue').textContent = '$' + totalValue.toFixed(2);
+        }
+
+        // Refresh data
+        function refreshData() {
+            loadInventory();
+        }
+
+        // Show add item modal
+        function showAddItemModal() {
+            const modal = new bootstrap.Modal(document.getElementById('addItemModal'));
+            modal.show();
+        }
+
+        // Add item
+        function addItem() {
+            const item = {
+                sku: document.getElementById('itemSku').value,
+                name: document.getElementById('itemName').value,
+                category: document.getElementById('itemCategory').value,
+                quantity: parseInt(document.getElementById('itemQuantity').value),
+                price: parseFloat(document.getElementById('itemPrice').value),
+                description: document.getElementById('itemDescription').value
+            };
+            
+            if (inventory.find(i => i.sku === item.sku)) {
+                alert('SKU already exists!');
+                return;
+            }
+            
+            inventory.push(item);
+            document.getElementById('addItemForm').reset();
+            bootstrap.Modal.getInstance(document.getElementById('addItemModal')).hide();
+            loadInventory();
+            alert('Item added successfully!');
+        }
+
+        // Edit item
+        function editItem(sku) {
+            const item = inventory.find(i => i.sku === sku);
+            if (item) {
+                const newQuantity = prompt(`Edit quantity for ${item.name}:`, item.quantity);
+                if (newQuantity !== null) {
+                    item.quantity = parseInt(newQuantity);
+                    loadInventory();
+                }
+            }
+        }
+
+        // Delete item
+        function deleteItem(sku) {
+            if (confirm('Delete this item?')) {
+                inventory = inventory.filter(i => i.sku !== sku);
+                loadInventory();
+                alert('Item deleted!');
+            }
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', loadInventory);
+        document.getElementById('categoryFilter').addEventListener('change', loadInventory);
+    </script>
+</body>
+</html>

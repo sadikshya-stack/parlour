@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Add Items</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f8f9fa; padding: 20px; }
+        .item-box { 
+            background: white; 
+            border: 1px solid #ddd; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .item-box:hover { background: #e9ecef; }
+        .added { background: #d4edda; border-color: #28a745; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="mb-4">Add Beauty Parlour Items</h2>
+        
+        <div class="alert alert-info">
+            <strong>Click each item below to add it to inventory</strong>
+            <br>After adding, go to <a href="inventory.html" target="_blank">inventory.html</a> to view items
+        </div>
+        
+        <button class="btn btn-success mb-3" onclick="addAllItems()">
+            Add All 20 Items at Once
+        </button>
+        
+        <button class="btn btn-warning mb-3 ms-2" onclick="clearAndAddAll()">
+            Clear Database & Add All
+        </button>
+        
+        <div id="status" class="mb-3"></div>
+        
+        <div id="itemsList"></div>
+    </div>
+
+    <script src="js/database.js"></script>
+    <script>
+        const items = [
+            { sku: 'HC001', name: 'Professional Shampoo', category: 'hair-care', supplier: 'Beauty Supply Co.', quantity: 25, price: 15.99, reorder_level: 10, description: 'Professional grade shampoo for all hair types' },
+            { sku: 'HC002', name: 'Hair Conditioner', category: 'hair-care', supplier: 'Beauty Supply Co.', quantity: 20, price: 12.99, reorder_level: 8, description: 'Moisturizing conditioner for treated hair' },
+            { sku: 'HC003', name: 'Hair Color - Black', category: 'hair-care', supplier: 'Color Pro', quantity: 12, price: 8.50, reorder_level: 6, description: 'Permanent hair color kit' },
+            { sku: 'HC004', name: 'Hair Spray', category: 'hair-care', supplier: 'Beauty Supply Co.', quantity: 18, price: 6.99, reorder_level: 10, description: 'Extra hold hair spray' },
+            { sku: 'HC005', name: 'Hair Gel', category: 'hair-care', supplier: 'Beauty Supply Co.', quantity: 22, price: 5.99, reorder_level: 12, description: 'Strong hold hair gel' },
+            { sku: 'SK001', name: 'Face Cleanser', category: 'skincare', supplier: 'Skincare Pro', quantity: 8, price: 22.50, reorder_level: 10, description: 'Gentle facial cleanser for daily use' },
+            { sku: 'SK002', name: 'Face Moisturizer', category: 'skincare', supplier: 'Skincare Pro', quantity: 14, price: 25.99, reorder_level: 8, description: 'Daily moisturizer with vitamin E' },
+            { sku: 'SK003', name: 'Face Mask - Hydrating', category: 'skincare', supplier: 'Skincare Pro', quantity: 25, price: 4.99, reorder_level: 15, description: 'Single use hydrating face masks' },
+            { sku: 'SK004', name: 'Sunscreen SPF 50', category: 'skincare', supplier: 'Skincare Pro', quantity: 18, price: 14.99, reorder_level: 10, description: 'Broad spectrum sunscreen' },
+            { sku: 'MK001', name: 'Foundation - Natural', category: 'makeup', supplier: 'Makeup Pro', quantity: 15, price: 18.75, reorder_level: 8, description: 'Liquid foundation with SPF 15' },
+            { sku: 'MK002', name: 'Lipstick - Red', category: 'makeup', supplier: 'Makeup Pro', quantity: 20, price: 12.50, reorder_level: 10, description: 'Classic red lipstick' },
+            { sku: 'MK003', name: 'Mascara - Black', category: 'makeup', supplier: 'Makeup Pro', quantity: 16, price: 10.99, reorder_level: 8, description: 'Waterproof mascara' },
+            { sku: 'NC001', name: 'Nail Polish Red', category: 'nail-care', supplier: 'Nail Supplies', quantity: 0, price: 8.99, reorder_level: 5, description: 'Classic red nail polish' },
+            { sku: 'NC002', name: 'Nail File', category: 'nail-care', supplier: 'Nail Supplies', quantity: 30, price: 2.99, reorder_level: 20, description: 'Emery nail files' },
+            { sku: 'NC003', name: 'Cuticle Oil', category: 'nail-care', supplier: 'Nail Supplies', quantity: 10, price: 7.50, reorder_level: 5, description: 'Nourishing cuticle oil' },
+            { sku: 'TL001', name: 'Hair Cutting Scissors', category: 'tools', supplier: 'Pro Tools', quantity: 5, price: 45.00, reorder_level: 2, description: 'Professional hair cutting scissors' },
+            { sku: 'TL002', name: 'Hair Dryer', category: 'tools', supplier: 'Pro Tools', quantity: 3, price: 89.99, reorder_level: 1, description: 'Professional hair dryer' },
+            { sku: 'TL003', name: 'Curling Iron', category: 'tools', supplier: 'Pro Tools', quantity: 4, price: 65.00, reorder_level: 2, description: '1 inch curling iron' },
+            { sku: 'CL001', name: 'Disinfectant Spray', category: 'cleaning', supplier: 'Clean Supply', quantity: 8, price: 9.99, reorder_level: 5, description: 'Tool disinfectant spray' },
+            { sku: 'CL002', name: 'Hand Sanitizer', category: 'cleaning', supplier: 'Clean Supply', quantity: 15, price: 3.99, reorder_level: 10, description: 'Hand sanitizer bottles' }
+        ];
+
+        let db;
+        let addedItems = new Set();
+
+        async function init() {
+            try {
+                db = new InventoryDatabase();
+                await db.init();
+                
+                // Display all items
+                const itemsList = document.getElementById('itemsList');
+                itemsList.innerHTML = items.map(item => `
+                    <div class="item-box" id="item-${item.sku}" onclick="addItem('${item.sku}')">
+                        <strong>${item.name}</strong><br>
+                        <small>SKU: ${item.sku} | Category: ${item.category} | Price: $${item.price} | Qty: ${item.quantity}</small>
+                    </div>
+                `).join('');
+                
+                // Check which items are already added
+                await checkExistingItems();
+                
+            } catch (error) {
+                document.getElementById('status').innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
+            }
+        }
+
+        async function checkExistingItems() {
+            try {
+                const existingItems = await db.getAllInventoryItems();
+                existingItems.forEach(item => {
+                    addedItems.add(item.sku);
+                    document.getElementById(`item-${item.sku}`).classList.add('added');
+                });
+                
+                if (addedItems.size > 0) {
+                    document.getElementById('status').innerHTML = `<div class="alert alert-info">Found ${addedItems.size} items already in database</div>`;
+                }
+            } catch (error) {
+                console.error('Error checking existing items:', error);
+            }
+        }
+
+        async function addItem(sku) {
+            if (addedItems.has(sku)) {
+                document.getElementById('status').innerHTML = `<div class="alert alert-warning">Item ${sku} already exists!</div>`;
+                return;
+            }
+
+            try {
+                const item = items.find(i => i.sku === sku);
+                await db.addInventoryItem(item);
+                addedItems.add(sku);
+                document.getElementById(`item-${sku}`).classList.add('added');
+                document.getElementById('status').innerHTML = `<div class="alert alert-success">Added: ${item.name}</div>`;
+            } catch (error) {
+                document.getElementById('status').innerHTML = `<div class="alert alert-danger">Error adding ${sku}: ${error.message}</div>`;
+            }
+        }
+
+        async function addAllItems() {
+            document.getElementById('status').innerHTML = '<div class="alert alert-info">Adding all items...</div>';
+            
+            for (const item of items) {
+                if (!addedItems.has(item.sku)) {
+                    try {
+                        await db.addInventoryItem(item);
+                        addedItems.add(item.sku);
+                        document.getElementById(`item-${item.sku}`).classList.add('added');
+                    } catch (error) {
+                        console.error(`Error adding ${item.sku}:`, error);
+                    }
+                }
+            }
+            
+            document.getElementById('status').innerHTML = `<div class="alert alert-success">Added ${addedItems.size} items total!</div>`;
+        }
+
+        async function clearAndAddAll() {
+            if (!confirm('This will delete all existing items and add fresh ones. Continue?')) return;
+            
+            try {
+                document.getElementById('status').innerHTML = '<div class="alert alert-warning">Clearing database...</div>';
+                
+                // Delete database
+                const deleteReq = indexedDB.deleteDatabase('BeautyParlourDB');
+                await new Promise((resolve, reject) => {
+                    deleteReq.onsuccess = resolve;
+                    deleteReq.onerror = reject;
+                });
+                
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                // Reinitialize
+                db = new InventoryDatabase();
+                await db.init();
+                
+                // Clear added items set
+                addedItems.clear();
+                document.querySelectorAll('.item-box').forEach(box => box.classList.remove('added'));
+                
+                // Add all items
+                await addAllItems();
+                
+            } catch (error) {
+                document.getElementById('status').innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
+            }
+        }
+
+        // Initialize on load
+        window.onload = init;
+    </script>
+</body>
+</html>

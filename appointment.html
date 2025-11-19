@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premium Appointment Booking</title>
+<link href="css/style.css" rel="stylesheet">
+ <link href="css/bootstrap.min.css" rel="stylesheet">
+
+     <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Playfair+Display:wght@500&family=Work+Sans&display=swap"
+        rel="stylesheet">
+
+     <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+<style>
+    body {
+        font-family: 'Montserrat', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff;
+        color: #333;
+    }
+    /* Section */  
+       .appointment-section {
+    padding: 80px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: url("img/page-header.jpg") no-repeat center center/cover;
+    background-attachment: fixed;
+       }
+    .appointment-section h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 48px;
+        font-weight: 700;
+        color: #b8860b;
+        margin-bottom: 50px;
+        text-align: center;
+        letter-spacing: 1px;
+    }
+    /* Services Cards */
+    .services {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 25px;
+        margin-bottom: 60px;
+    }
+    .service-card {
+        background: #fffaf0;
+        border: 3px solid #bf9456;
+        border-radius: 25px;
+        width: 160px;
+        height: 180px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.4s, box-shadow 0.4s;
+        cursor: pointer;
+        padding: 15px;
+    }
+    .service-card:hover {
+        transform: translateY(-10px) scale(1.05);
+        box-shadow: 0 15px 30px rgba(184,134,11,0.3);
+    }
+    .service-card img {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 12px;
+    }
+    .service-card p {
+        font-weight: 600;
+        font-size: 16px;
+        color: #bf9456;
+        margin: 0;
+        text-align: center;
+    }
+    /* Form */
+    .appointment-container {
+        background: #fffaf0;
+        padding: 50px;
+        border-radius: 25px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        width: 100%;
+        max-width: 600px;
+        border: 3px solid #bf9456;
+        transition: transform 0.3s;
+    }
+    .appointment-container:hover {
+        transform: translateY(-5px);
+    }
+    .appointment-container h2 {
+        text-align: center;
+        color: #bf9456;
+        margin-bottom: 30px;
+        font-family: 'Playfair Display', serif;
+        font-size: 32px;
+        letter-spacing: 1px;
+    }
+    .appointment-container input,
+    .appointment-container select,
+    .appointment-container textarea {
+        width: 100%;
+        padding: 14px 15px;
+        margin-bottom: 18px;
+        border-radius: 15px;
+        border: 2px solid #bf9456;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        font-family: 'Montserrat', sans-serif;
+    }
+    .appointment-container input:focus,
+    .appointment-container select:focus,
+    .appointment-container textarea:focus {
+        border-color: #bf9456;
+        box-shadow: 0 0 8px rgba(184,134,11,0.4);
+        outline: none;
+    }
+    .appointment-container button {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 15px;
+        background: #bf9456;
+        color: white;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+        font-family: 'Montserrat', sans-serif;
+    }
+    .appointment-container button:hover {
+        background: #bf9456;
+        transform: scale(1.02);
+    }
+    /* Responsive */
+    @media (max-width: 650px) {
+        .services {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .service-card {
+            width: 180px;
+            height: 200px;
+        }
+    }
+</style>
+</head>
+<body>
+    <!-- Navbar Start -->
+    <div class="container-fluid bg-light sticky-top p-0">
+        <nav class="navbar navbar-expand-lg navbar-light p-0">
+            <a href="index.html" class="navbar-brand bg-primary py-4 px-5 me-0">
+                <h1 class="mb-0"><i class="bi bi-scissors"></i>Salon</h1> 
+            </a>
+            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse"
+                data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse p-3" id="navbarCollapse">
+                <div class="navbar-nav mx-auto" >
+                    <a href="index.html" class="nav-item nav-link ">Home</a>
+                    <a href="about.html" class="nav-item nav-link">About</a>
+                    <a href="service.html" class="nav-item nav-link">Service</a>
+                     <a href="appointment.html" class="nav-item nav-link active">Appointment</a>
+                    <a href="inventory.html" class="nav-item nav-link">Inventory</a>
+                   
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                        <div class="dropdown-menu bg-light mt-2">
+                            <a href="gallery.html" class="dropdown-item">Photo Gallery</a>
+                            <a href="404.html" class="dropdown-item">404 Page</a>
+                        </div>
+                    </div>
+                    <a href="contact.html" class="nav-item nav-link">Contact</a>
+                </div>
+                
+            </div>
+        </nav>
+    </div>
+    <!-- Navbar End -->
+<section class="appointment-section">
+    <h1>Book Your Appointment</h1>
+    <!-- Appointment Form -->
+    <div class="appointment-container">
+        <h2>Reserve Your Spot</h2>
+        <form id="appointmentForm" action="#" method="POST" onsubmit="return validateForm()">
+            <input type="text" name="name" id="name" placeholder="Full Name" required>
+            <input type="email" name="email" id="email" placeholder="Email Address" required>
+            <input type="tel" name="phone" id="phone" placeholder="Phone Number" required pattern="[0-9]{10}" title="Please enter 10-digit phone number">
+            <select name="service" id="service" required>
+                <option value="">Select Service</option>
+                <option value="haircut">Haircut</option>
+                <option value="manicure">Manicure</option>
+                <option value="pedicure">Pedicure</option>
+                <option value="makeup">Makeup</option>
+                <option value="skincare">Skincare</option>
+                <option value="nailextension">Nail Extension</option>
+                <option value="Other Services">Other Services</option>
+            </select>
+            
+            <!-- Haircut Types -->
+    <div id="haircutBox" style="display:none;">
+        <select name="haircutType" style="width:100%; padding:14px 15px; margin-bottom:18px; border-radius:15px; border:2px solid #bf9456;">
+            <option value="">Select Haircut Type</option>
+            <option>Straight Cut</option>
+            <option>U-Cut</option>
+            <option>V-Cut</option>
+            <option>Long Layers</option>
+            <option>Butterfly Cut</option>
+            <option>Wolf Cut</option>
+            <option>Bob Cut</option>
+        </select>
+    </div>
+    <!--Makeup Types-->
+    <div id="makeupBox" style="display:none; margin-bottom:10px;">
+    <select name="makeupType" style="width:100%; padding:14px 15px; border-radius:15px; border:2px solid #bf9456;">
+        <option value="">Select Makeup Type</option>
+        <option>Bridal Makeup</option>
+        <option>Party Makeup</option>
+        <option>Casual Makeup</option>
+        <option>Glam Makeup</option>
+    </select>
+</div>
+<!--Pedicure Types-->
+<div id="pedicureBox" style="display:none; margin-bottom:10px;">
+    <select name="pedicureType" style="width:100%; padding:14px 15px; border-radius:15px; border:2px solid #bf9456;">
+        <option value="">Select Pedicure Type</option>
+        <option>Basic Pedicure</option>
+        <option>Spa Pedicure</option>
+        <option>Gel Pedicure</option>
+    </select>
+</div>
+<!-- Manicure Types -->
+<div id="manicureBox" style="display:none; margin-bottom:10px;">
+    <select name="manicureType" style="width:100%; padding:14px 15px; border-radius:15px; border:2px solid #bf9456;">
+        <option value="">Select Manicure Type</option>
+        <option>Basic Manicure</option>
+        <option>Gel Manicure</option>
+        <option>Spa Manicure</option>
+    </select>
+</div>
+<!--Skincare Types-->
+<div id="skincareBox" style="display:none; margin-bottom:10px;">
+    <select name="skincareType" style="width:100%; padding:14px 15px; border-radius:15px; border:2px solid #bf9456;">
+        <option value="">Select Skincare Type</option>
+        <option>Basic Skincare</option>
+        <option>Acne Care Skincare</option>
+        <option>Facial Treatment</option>
+    </select>
+</div>
+<!--Nail Extension  Types-->
+<div id="nailextensionBox" style="display:none; margin-bottom:10px;">
+    <select name="nailextensionType" style="width:100%; padding:14px 15px; border-radius:15px; border:2px solid #bf9456;">
+        <option value="">Select Nail Extension Type</option>
+        <option>Gel Nail Extension</option>
+        <option>Acrylic Nails</option>
+        
+       
+    </select>
+</div>
+            <input type="date" name="date" id="date" required min="">
+            <input type="time" name="time" id="time" required min="09:00" max="18:00">
+            <textarea name="notes" id="notes" rows="4" placeholder="Additional Notes (optional)" maxlength="200"></textarea>
+            
+            <div class="payment-method">
+                <label for="payment">Payment Method:</label>
+                <select name="payment" id="payment" required>
+                    <option value="">Select Payment Method</option>
+                    <option value="cash">Cash</option>
+                    <option value="card">Credit/Debit Card</option>
+                    <option value="digital">Digital Payment (Esewa/Khalti)</option>
+                    <option value="bank">Bank Transfer</option>
+                </select>
+            </div>
+            
+            <div id="paymentDetails" class="payment-details" style="display: none;">
+                <h3>Payment Method Details</h3>
+                <div id="paymentInfo"></div>
+            </div>
+            
+            <button type="submit">Book Now</button>
+        </form>
+    </div>
+</section>
+
+<script>
+    // Set minimum date to today
+    document.getElementById('date').min = new Date().toISOString().split('T')[0];
+
+    // Simple validation setup
+    document.addEventListener('DOMContentLoaded', function() {
+        // No complex validation - just basic setup
+        console.log('Appointment form loaded');
+    });
+
+    // Validate individual field
+    function validateField(fieldId) {
+        const field = document.getElementById(fieldId);
+        const value = field.value.trim();
+        
+        // Clear previous error for this field
+        clearFieldError(fieldId);
+        
+        let hasError = false;
+        
+        switch(fieldId) {
+            case 'name':
+                if (!value || value.length < 3) {
+                    showError(fieldId, 'Name must be at least 3 characters long');
+                    hasError = true;
+                } else if (!/^[a-zA-Z\s]+$/.test(value)) {
+                    showError(fieldId, 'Name should only contain letters and spaces');
+                    hasError = true;
+                }
+                break;
+                
+            case 'email':
+                const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if (!value) {
+                    showError(fieldId, 'Please enter a valid email address');
+                    hasError = true;
+                } else if (!emailRegex.test(value)) {
+                    showError(fieldId, 'Please enter a valid email address');
+                    hasError = true;
+                }
+                break;
+                
+            case 'phone':
+                const phoneRegex = /^[0-9]{10}$/;
+                if (!value) {
+                    showError(fieldId, 'Please enter a valid 10-digit phone number');
+                    hasError = true;
+                } else if (!phoneRegex.test(value)) {
+                    showError(fieldId, 'Please enter a valid 10-digit phone number');
+                    hasError = true;
+                } else if (value.startsWith('0')) {
+                    showError(fieldId, 'Phone number should not start with 0');
+                    hasError = true;
+                }
+                break;
+                
+            case 'service':
+                if (!value) {
+                    showError(fieldId, 'Please select a service');
+                    hasError = true;
+                }
+                break;
+                
+            case 'date':
+                if (!value) {
+                    showError(fieldId, 'Please select an appointment date');
+                    hasError = true;
+                } else {
+                    const selectedDate = new Date(value);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    
+                    if (selectedDate < today) {
+                        showError(fieldId, 'Please select a future date (cannot book for past dates)');
+                        hasError = true;
+                    } else {
+                        const maxDate = new Date();
+                        maxDate.setDate(maxDate.getDate() + 30);
+                        if (selectedDate > maxDate) {
+                            showError(fieldId, 'Cannot book more than 30 days in advance');
+                            hasError = true;
+                        }
+                    }
+                }
+                break;
+                
+            case 'time':
+                if (!value) {
+                    showError(fieldId, 'Please select an appointment time');
+                    hasError = true;
+                } else {
+                    const selectedTime = value.split(':');
+                    const hour = parseInt(selectedTime[0]);
+                    const minute = parseInt(selectedTime[1]);
+                    
+                    if (hour < 9 || hour >= 18) {
+                        showError(fieldId, 'Please select a time between 9:00 AM and 6:00 PM');
+                        hasError = true;
+                    } else if (hour === 13) {
+                        showError(fieldId, 'Lunch break: 1:00 PM - 2:00 PM. Please select different time');
+                        hasError = true;
+                    }
+                }
+                break;
+                
+            case 'notes':
+                if (value && value.length > 200) {
+                    showError(fieldId, 'Notes should not exceed 200 characters');
+                    hasError = true;
+                }
+                break;
+                
+            case 'payment':
+                if (!value) {
+                    showError(fieldId, 'Please select a payment method');
+                    hasError = true;
+                }
+                break;
+        }
+        
+        return !hasError;
+    }
+
+    // Clear error for specific field
+    function clearFieldError(fieldId) {
+        const field = document.getElementById(fieldId);
+        const errorDiv = field.parentNode.querySelector('.error-message');
+        if (errorDiv) {
+            errorDiv.remove();
+        }
+        field.style.borderColor = '';
+    }
+
+    // Enhanced form validation with better UX - NO ALERTS
+    function validateForm() {
+        // Clear all previous errors
+        clearErrors();
+        
+        // Get form values
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const service = document.getElementById('service').value;
+        const date = document.getElementById('date').value;
+        const time = document.getElementById('time').value;
+        const notes = document.getElementById('notes').value.trim();
+        
+        // Basic validation
+        if (!name || name.length < 3) {
+            showError('name', 'Name must be at least 3 characters long');
+            return false;
+        }
+
+        if (!email || !email.includes('@')) {
+            showError('email', 'Please enter a valid email address');
+            return false;
+        }
+
+        if (!phone || phone.length !== 10 || !/^[0-9]+$/.test(phone)) {
+            showError('phone', 'Please enter a valid 10-digit phone number');
+            return false;
+        }
+
+        if (!service) {
+            showError('service', 'Please select a service');
+            return false;
+        }
+
+        if (!date) {
+            showError('date', 'Please select an appointment date');
+            return false;
+        }
+
+        if (!time) {
+            showError('time', 'Please select an appointment time');
+            return false;
+        }
+
+        const payment = document.getElementById('payment').value;
+        if (!payment) {
+            showError('payment', 'Please select a payment method');
+            return false;
+        }
+
+        // If no errors, show confirmation dialog
+        const serviceNames = {
+            'haircut': 'Haircut',
+            'manicure': 'Manicure',
+            'pedicure': 'Pedicure',
+            'makeup': 'Makeup',
+            'skincare': 'Skincare',
+            'facial': 'Facial',
+            'nailextension': 'Nail Extension',
+            'styling': 'Hair Styling'
+        };
+
+        const paymentNames = {
+            'cash': 'Cash',
+            'card': 'Credit/Debit Card',
+            'digital': 'Digital Payment (Esewa/Khalti)',
+            'bank': 'Bank Transfer'
+        };
+
+        // Format date for display
+        const formattedDate = new Date(date).toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+
+        // Format time for display
+        const [hours, minutes] = time.split(':');
+        const hour = parseInt(hours);
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        const displayHour = hour > 12 ? hour - 12 : hour;
+        const formattedTime = `${displayHour}:${minutes} ${ampm}`;
+
+        const confirmation = confirm(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+            `🌸 APPOINTMENT BOOKING CONFIRMATION 🌸\n` +
+            `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+            `👤 Name: ${name}\n` +
+            `📧 Email: ${email}\n` +
+            `📞 Phone: ${phone}\n` +
+            `💅 Service: ${serviceNames[service] || service}\n` +
+            `📅 Date: ${formattedDate}\n` +
+            `⏰ Time: ${formattedTime}\n` +
+            `💳 Payment: ${paymentNames[payment] || payment}\n` +
+            `${notes ? `📝 Notes: ${notes}\n` : ''}` +
+            `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+            `✨ Please confirm your appointment booking?\n\n` +
+            `Click OK to confirm or Cancel to modify.`);
+        
+        if (confirmation) {
+            // Success message
+            const successMessage = `🎉 Appointment Confirmed! 🎉\n\n` +
+                `Thank you for choosing Glamour Touch Beauty Parlour!\n\n` +
+                `📍 Your appointment has been successfully booked.\n` +
+                `📞 We will contact you at ${phone} to confirm your appointment.\n` +
+                `💳 Payment details will be discussed during the confirmation call.\n\n` +
+                `✨ We look forward to serving you! ✨\n\n` +
+                `🏠 Glamour Touch Beauty Parlour\n` +
+                `📞 Contact: 98XXXXXXXX\n` +
+                `🕐 Business Hours: 9:00 AM - 6:00 PM`;
+            
+            alert(successMessage);
+            
+            // Reset form after successful submission
+            setTimeout(() => {
+                if (confirm('Would you like to book another appointment?')) {
+                    document.getElementById('appointmentForm').reset();
+                    // Hide all service boxes
+                    document.querySelectorAll('[id$="Box"]').forEach(box => {
+                        box.style.display = 'none';
+                    });
+                }
+            }, 1000);
+            
+            return true;
+        }
+        
+        return false;
+    }
+
+    // Error display functions
+    function showError(fieldId, message) {
+        const field = document.getElementById(fieldId);
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.style.cssText = `
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            padding: 5px 10px;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            display: block;
+            animation: slideDown 0.3s ease;
+        `;
+        errorDiv.textContent = message;
+        
+        // Remove existing error if any
+        const existingError = field.parentNode.querySelector('.error-message');
+        if (existingError) {
+            existingError.remove();
+        }
+        
+        field.parentNode.insertBefore(errorDiv, field.nextSibling);
+        field.style.borderColor = '#dc3545';
+        field.focus();
+    }
+
+    function clearErrors() {
+        document.querySelectorAll('.error-message').forEach(error => error.remove());
+        document.querySelectorAll('input, select, textarea').forEach(field => {
+            field.style.borderColor = '#bf9456';
+        });
+    }
+
+    // Add CSS animation for errors
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .error-message {
+            animation: slideDown 0.3s ease;
+        }
+        
+        .payment-method {
+    margin-bottom: 20px;
+}
+
+.payment-method label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.payment-method select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #bf9456;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.payment-method select:focus {
+    border-color: #bf9456;
+    box-shadow: 0 0 8px rgba(184,134,11,0.4);
+    outline: none;
+}
+
+.payment-details {
+    background: #f8f9fa;
+    border: 2px solid #bf9456;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    animation: slideDown 0.3s ease;
+}
+
+.payment-details h3 {
+    color: #333;
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    border-bottom: 2px solid #bf9456;
+    padding-bottom: 5px;
+}
+
+.payment-details #paymentInfo {
+    color: #555;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+input:focus, select:focus, textarea:focus {
+            border-color: #bf9456 !important;
+            box-shadow: 0 0 8px rgba(184,134,11,0.4) !important;
+        }
+        
+        input.error, select.error, textarea.error {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 8px rgba(220,53,69,0.2) !important;
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Payment method selection handler
+    const paymentSelect = document.getElementById('payment');
+    const paymentDetails = document.getElementById('paymentDetails');
+    const paymentInfo = document.getElementById('paymentInfo');
+    
+    paymentSelect.addEventListener('change', function() {
+        const selectedPayment = this.value;
+        
+        if (selectedPayment) {
+            paymentDetails.style.display = 'block';
+            
+            const paymentDetailsContent = {
+                'cash': '💵 <strong>Cash Payment</strong><br>You can pay in cash at our parlour after the service is completed. Please bring exact change if possible.',
+                'card': '💳 <strong>Credit/Debit Card</strong><br>We accept all major credit and debit cards (Visa, Mastercard). Card payment can be made at the parlour.',
+                'digital': '📱 <strong>Digital Payment (Esewa/Khalti)</strong><br>You can pay using Esewa or Khalti mobile wallets. QR code will be available at the parlour.',
+                'bank': '🏦 <strong>Bank Transfer</strong><br>Direct bank transfer to our business account. Account details will be provided during confirmation call.'
+            };
+            
+            paymentInfo.innerHTML = paymentDetailsContent[selectedPayment] || '';
+        } else {
+            paymentDetails.style.display = 'none';
+        }
+    });
+
+    // Service selection logic
+    const serviceSelect = document.querySelector('select[name="service"]');
+    const haircutBox = document.getElementById('haircutBox');
+    const makeupBox = document.getElementById('makeupBox');
+    const pedicureBox = document.getElementById('pedicureBox');
+    const manicureBox = document.getElementById('manicureBox');
+    const skincareBox = document.getElementById('skincareBox');
+    const nailextensionBox = document.getElementById('nailextensionBox');
+    
+    serviceSelect.addEventListener('change', () => {
+        if (serviceSelect.value === "haircut") {
+            haircutBox.style.display = "block";
+        } else {
+            haircutBox.style.display = "none";
+        }
+        // Makeup
+        if (serviceSelect.value === "makeup") {
+            makeupBox.style.display = "block";
+        } else {
+            makeupBox.style.display = "none";
+        }
+         // Pedicure
+        if (serviceSelect.value === "pedicure") {
+            pedicureBox.style.display = "block";
+        } else {
+            pedicureBox.style.display = "none";
+        }
+        // Manicure
+        if (serviceSelect.value === "manicure") {
+            manicureBox.style.display = "block";
+        } else {
+            manicureBox.style.display = "none";
+        }
+        // Skincare
+        if (serviceSelect.value === "skincare") {
+            skincareBox.style.display = "block";
+        } else {
+            skincareBox.style.display = "none";
+        }
+        //Nail Extension 
+        if (serviceSelect.value === "nailextension") {
+            nailextensionBox.style.display = "block";
+        } else {
+            nailextensionBox.style.display = "none";
+        }
+    });
+</script>
+</body>
+</html>

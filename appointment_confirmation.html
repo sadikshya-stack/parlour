@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Confirmed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .success-icon {
+            font-size: 60px;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">✓</div>
+        <h1>Appointment Confirmed!</h1>
+        <p>Thank you for booking with us. Your appointment has been successfully confirmed.</p>
+        
+        <div class="details" id="appointmentDetails">
+            <h3>Appointment Details</h3>
+            <div class="detail-row">
+                <strong>Name:</strong>
+                <span id="name">-</span>
+            </div>
+            <div class="detail-row">
+                <strong>Email:</strong>
+                <span id="email">-</span>
+            </div>
+            <div class="detail-row">
+                <strong>Phone:</strong>
+                <span id="phone">-</span>
+            </div>
+            <div class="detail-row">
+                <strong>Service:</strong>
+                <span id="service">-</span>
+            </div>
+            <div class="detail-row">
+                <strong>Date:</strong>
+                <span id="date">-</span>
+            </div>
+            <div class="detail-row">
+                <strong>Time:</strong>
+                <span id="time">-</span>
+            </div>
+            <div class="detail-row" id="notesRow" style="display: none;">
+                <strong>Notes:</strong>
+                <span id="notes">-</span>
+            </div>
+        </div>
+
+        <div>
+            <a href="appointment.html" class="btn btn-primary">Book Another Appointment</a>
+            <a href="index.html" class="btn btn-secondary">Go Home</a>
+        </div>
+    </div>
+
+    <script>
+        // Show beautiful confirmation dialog on page load
+        setTimeout(() => {
+            const name = getParam('name');
+            const email = getParam('email');
+            const phone = getParam('phone');
+            const service = getParam('service');
+            const date = getParam('date');
+            const time = getParam('time');
+            const notes = getParam('notes');
+            
+            const formattedDate = formatDate(date);
+            const formattedTime = formatTime(time);
+            
+            const confirmation = confirm(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                `🌸 APPOINTMENT BOOKING CONFIRMATION 🌸\n` +
+                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+                `👤 Name: ${name}\n` +
+                `📧 Email: ${email}\n` +
+                `📞 Phone: ${phone}\n` +
+                `💅 Service: ${services[service] || service}\n` +
+                `📅 Date: ${formattedDate}\n` +
+                `⏰ Time: ${formattedTime}\n` +
+                `${notes ? `📝 Notes: ${notes}\n` : ''}` +
+                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+                `✨ Your appointment has been confirmed!\n\n` +
+                `📍 We will contact you at ${phone} to confirm.\n` +
+                `💳 Payment details will be discussed during the call.\n\n` +
+                `Click OK to continue!`);
+        }, 500);
+        
+        // Simple URL parameter parsing
+        function getParam(name) {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Service name mapping
+        var services = {
+            'haircut': 'Haircut',
+            'manicure': 'Manicure',
+            'pedicure': 'Pedicure', 
+            'makeup': 'Makeup',
+            'skincare': 'Skincare',
+            'facial': 'Facial',
+            'nailextension': 'Nail Extension',
+            'styling': 'Hair Styling'
+        };
+
+        // Format date
+        function formatDate(dateStr) {
+            if (!dateStr) return '-';
+            var date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+
+        // Format time
+        function formatTime(timeStr) {
+            if (!timeStr) return '-';
+            var parts = timeStr.split(':');
+            var hours = parseInt(parts[0]);
+            var minutes = parts[1];
+            var ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            return hours + ':' + minutes + ' ' + ampm;
+        }
+
+        // Fill in the details
+        document.addEventListener('DOMContentLoaded', function() {
+            var name = getParam('name') || '-';
+            var email = getParam('email') || '-';
+            var phone = getParam('phone') || '-';
+            var service = getParam('service') || '-';
+            var date = getParam('date') || '-';
+            var time = getParam('time') || '-';
+            var notes = getParam('notes');
+
+            document.getElementById('name').textContent = name;
+            document.getElementById('email').textContent = email;
+            document.getElementById('phone').textContent = phone;
+            document.getElementById('service').textContent = services[service] || service;
+            document.getElementById('date').textContent = formatDate(date);
+            document.getElementById('time').textContent = formatTime(time);
+
+            if (notes) {
+                document.getElementById('notes').textContent = notes;
+                document.getElementById('notesRow').style.display = 'flex';
+            }
+        });
+    </script>
+</body>
+</html>

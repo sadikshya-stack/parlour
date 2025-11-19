@@ -1,0 +1,72 @@
+BEAUTY PARLOUR INVENTORY MANAGEMENT GUIDE
+==========================================
+
+HOW TO ADD NEW ITEMS TO INVENTORY:
+
+1. Open inventory.html in your browser
+2. Click the "Add New Item" button (blue button with + icon)
+3. Fill in the form:
+   - SKU: Unique code for the item (e.g., HC006 for Hair Care item 6)
+   - Item Name: Name of the product
+   - Category: Choose from:
+     • Hair Care
+     • Skincare
+     • Makeup
+     • Nail Care
+     • Tools & Equipment
+     • Cleaning Supplies
+   - Supplier: Name of the supplier (optional)
+   - Quantity: Current stock quantity
+   - Unit Price: Price per item
+   - Reorder Level: Minimum quantity before reordering
+   - Description: Brief description of the item
+4. Click "Save Item" to add to inventory
+
+CURRENT SAMPLE ITEMS ADDED:
+==========================
+
+Hair Care:
+- HC001: Professional Shampoo
+- HC002: Hair Conditioner
+- HC003: Hair Color - Black
+- HC004: Hair Spray
+- HC005: Hair Gel
+
+Skincare:
+- SK001: Face Cleanser
+- SK002: Face Moisturizer
+- SK003: Face Mask - Hydrating
+- SK004: Sunscreen SPF 50
+
+Makeup:
+- MK001: Foundation - Natural
+- MK002: Lipstick - Red
+- MK003: Mascara - Black
+
+Nail Care:
+- NC001: Nail Polish Red (OUT OF STOCK)
+- NC002: Nail File
+- NC003: Cuticle Oil
+
+Tools & Equipment:
+- TL001: Hair Cutting Scissors
+- TL002: Hair Dryer
+- TL003: Curling Iron
+
+Cleaning Supplies:
+- CL001: Disinfectant Spray
+- CL002: Hand Sanitizer
+
+FEATURES:
+- Track stock levels
+- Get alerts for low stock items
+- Search and filter items
+- Edit item details
+- Delete items
+- View inventory statistics
+
+TIPS:
+- Keep SKU codes consistent (HC for Hair Care, SK for Skincare, etc.)
+- Set appropriate reorder levels to avoid running out of stock
+- Regularly update quantities when using items
+- Use the search bar to quickly find items
